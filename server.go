@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
     
-    routes "github.com/devmarka/bbb-go-server/rest"
+    routes "github.com/devmarka/bbb-go-server/routes"
 )
 
 func main() {
