@@ -1,0 +1,24 @@
+{
+  "name": "bbb-go-server",
+  "version": "1.0.0",
+  "description": "BigBlueButtonFrontend-Server GO",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devmarka/bbb-go-server.git"
+  },
+  "author": "devmarka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devmarka/bbb-go-server/issues"
+  },
+  "homepage": "https://github.com/devmarka/bbb-go-server#readme",
+  "devDependencies": {
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
+    "webpack": "^4.43.0"
+  }
+}

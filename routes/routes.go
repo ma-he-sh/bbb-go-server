@@ -17,21 +17,20 @@ func rootRoute(w http.ResponseWriter, r *http.Request) {
 	page := templ.PageObj("Home")
 	page.SetBody("<div>HELLO</div>")
 	page.IsAdmin(false)
-	page.SetFRScripts("admin.js")
+	page.SetFRScripts("frontend.js")
 	templ.Render(w, "app", page.GetTemplPayload())
 }
 
 func adminLogin(w http.ResponseWriter, r *http.Request) {
 	page := templ.PageObj("Signin")
 	page.IsAdmin(false)
+	page.SetFRScripts("frontend.js")
 	if r.Method == http.MethodGet {
 		page.SetBody(templ.AdminLoginForm())
-		page.SetFRScripts("admin.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 		return
 	} else if r.Method == http.MethodPost {
 		page.SetBody(templ.AdminLoginForm())
-		page.SetFRScripts("admin.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 		return
 	} else {
