@@ -1,2 +1,93 @@
 @import "common";
 
+.app--backend-wrapper {
+	width: 100%;
+	height: auto;
+	float: left;
+	padding: 10px 10px 10px 10px;
+	box-sizing: border-box;
+
+	.app--backend {
+		max-width: 1200px;
+		min-width: 300px;
+		width: 100%;
+
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+
+		border-radius: 3px;
+		border: 1px solid rgba(149, 163, 171, 0.5);
+		box-sizing: border-box;
+
+		background-color: #FFF;
+
+		.bk--header, .bk--body {
+			width: 100%;
+			height: auto;
+			box-sizing: border-box;
+		}
+
+		.bk--header {
+			padding: 10px 10px 0px 10px;
+			border-bottom: 1px solid rgba(149, 163, 171, 0.5);
+			display: flex;
+
+			.nav--wrapper {
+				width: 100%;
+				flex: 1;
+
+				.nav--item {
+					min-width: 80px;
+					width: auto;
+					line-height: 40px;
+					margin-top: 10px;
+					font-size: 14px;
+					text-align: center;
+					float: left;
+					cursor: pointer;
+					margin-right: 10px;
+					border-top-left-radius: 3px;
+					border-top-right-radius: 3px;
+					border-top: 1px solid rgba(149, 163, 171, 0.5);
+					border-left: 1px solid rgba(149, 163, 171, 0.5);
+					border-right: 1px solid rgba(149, 163, 171, 0.5);
+				}
+
+				.nav--item:hover {
+					background-color: rgba(149, 163, 171, 0.24);
+				}
+			}
+
+			.nav--buttons {
+				width: 80px;
+				height: 40px;
+				float: right;
+				border-left: 1px solid rgba(149, 163, 171, 0.5);
+				padding-left: 10px;
+
+				.nav--button {
+					width: 40px;
+					height: 40px;
+					text-align: center;
+					line-height: 40px;
+					padding-top: 6px;
+					float: right;
+					border-style: none;
+					border: none;
+					background-color: transparent;
+					color: #273445;
+					cursor: pointer;
+				}
+
+				.nav--button:hover {
+					color: rgba(39, 52, 69, 0.84);
+				}
+			}
+		}
+
+		.bk--body {
+			padding: 10px;
+		}
+	}
+}

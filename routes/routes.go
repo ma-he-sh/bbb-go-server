@@ -15,7 +15,7 @@ func Routes(routes *mux.Router) {
 	routes.HandleFunc("/admin/login", adminLogin).Methods("GET", "POST")
 	routes.HandleFunc("/admin/dashboard", adminDashboard).Methods("GET")
 	routes.HandleFunc("/admin/signout", adminSignout).Methods("GET")
-	routes.HandleFunc("/event/{eventid}", eventHandle).Methods("GET")
+	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET")
 }
 
 func rootRoute(w http.ResponseWriter, r *http.Request) {
@@ -65,18 +65,26 @@ func adminLogin(w http.ResponseWriter, r *http.Request) {
 }
 
 func eventHandle(w http.ResponseWriter, r *http.Request) {
+
+	params := mux.Vars(r)
+
+	eventdata := map[string]string {
+		"name" : params["eventid"],
+	}	
+
 	page := templ.PageObj("Event")
-	page.SetBody("<div>HELLO</div>")
 	page.IsAdmin(false)
+	page.SetBody(templ.ClientLoginForm( eventdata ))
 	page.SetFRScripts("frontend.js")
 	templ.Render(w, "app", page.GetTemplPayload())
+	return
 }
 
 func adminDashboard(w http.ResponseWriter, r *http.Request) {
 	session.SessionAuthCheck(w, r, "/")
 
 	page := templ.PageObj("Dashboard")
-	page.SetBody("<div>DASHBOARD</div>")
+	page.SetBody(templ.AdminDashboard())
 	page.IsAdmin(true)
 	page.SetBKScripts("backend.js")
 	templ.Render(w, "app", page.GetTemplPayload())
