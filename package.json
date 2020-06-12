@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/devmarka/bbb-go-server#readme",
   "devDependencies": {
+    "css-loader": "^3.5.3",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
+    "source-map-loader": "^1.0.0",
+    "style-loader": "^1.2.1",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0"

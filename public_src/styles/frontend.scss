@@ -1,0 +1,48 @@
+@import "common";
+
+.app--floating-modal {
+    max-width: 500px;
+    min-width: 300px;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+    box-sizing: border-box;
+    display: block;
+
+    border: 1px solid rgba(149, 163, 171, 0.5);
+    border-radius: 3px;
+
+    .app--section {
+        width: 100%;
+        height: auto;
+        float: left;
+    }
+
+    .modal--header, .modal--body, .modal--footer {
+        width: 100%;
+        height: auto;
+        float: left;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+
+    .modal--header {
+        line-height: 24px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .modal--body {
+        border-top: 1px solid rgba(149, 163, 171, 0.5);
+        border-bottom: 1px solid rgba(149, 163, 171, 0.5);
+    }
+}
