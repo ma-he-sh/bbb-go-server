@@ -1,30 +1,34 @@
 package main
 
 import (
+	"log"
 	"net/http"
-    "time"
-    "log"
+	"time"
 
 	"github.com/gorilla/mux"
-    
-    routes "github.com/devmarka/bbb-go-server/routes"
+
+	db "github.com/devmarka/bbb-go-server/core/db"
+	routes "github.com/devmarka/bbb-go-server/routes"
 )
 
 func main() {
+	db.CreateTable()
+
 	r := mux.NewRouter().StrictSlash(true)
 
-    mainRouter := r.Host("localhost").Subrouter()
-    routes.Routes( mainRouter )
+	mainRouter := r.Host("localhost").Subrouter()
+	routes.Routes(mainRouter)
+	routes.Rest(mainRouter)
 
-    fs := http.FileServer( http.Dir("./public"))
-    r.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fs))
+	fs := http.FileServer(http.Dir("./public"))
+	r.PathPrefix("/public/").Handler(http.StripPrefix("/public/", fs))
 
-    server := &http.Server{
-        Addr: ":8080",
-        Handler: r,
-        ReadTimeout: 15 * time.Second,
-        WriteTimeout: 15 * time.Second,
-    }
+	server := &http.Server{
+		Addr:         ":8080",
+		Handler:      r,
+		ReadTimeout:  15 * time.Second,
+		WriteTimeout: 15 * time.Second,
+	}
 
 	log.Fatal(server.ListenAndServe())
 }

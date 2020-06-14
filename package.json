@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/devmarka/bbb-go-server#readme",
   "devDependencies": {
+    "@types/jquery": "^3.3.38",
     "css-loader": "^3.5.3",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
@@ -25,5 +26,10 @@
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0"
+  },
+  "dependencies": {
+    "bootstrap-datetimepicker-npm": "^4.17.37-npm",
+    "jquery": "^3.5.1",
+    "sweetalert": "^2.1.2"
   }
 }

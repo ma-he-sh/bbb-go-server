@@ -5,15 +5,18 @@ import (
 
 	"github.com/gorilla/mux"
 
-	templ "github.com/devmarka/bbb-go-server/template"
+	api "github.com/devmarka/bbb-go-server/core/api"
 	session "github.com/devmarka/bbb-go-server/core/session"
 	env "github.com/devmarka/bbb-go-server/env"
+	templ "github.com/devmarka/bbb-go-server/template"
 )
 
 func Routes(routes *mux.Router) {
 	routes.HandleFunc("/", rootRoute)
 	routes.HandleFunc("/admin/login", adminLogin).Methods("GET", "POST")
-	routes.HandleFunc("/admin/dashboard", adminDashboard).Methods("GET")
+	routes.HandleFunc("/admin/dashboard/", adminDashboard).Methods("GET")
+	routes.HandleFunc("/admin/dashboard/event/add/", createEvent).Methods("GET")
+	routes.HandleFunc("/admin/dashboard/event/edit/{eventid}", editEvent).Methods("GET")
 	routes.HandleFunc("/admin/signout", adminSignout).Methods("GET")
 	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET")
 }
@@ -21,11 +24,15 @@ func Routes(routes *mux.Router) {
 func rootRoute(w http.ResponseWriter, r *http.Request) {
 	session.SessionRedirect(w, r, "/admin/dashboard")
 
-	page := templ.PageObj("Home")
-	page.SetBody("<div>HELLO</div>")
-	page.IsAdmin(false)
-	page.SetFRScripts("frontend.js")
-	templ.Render(w, "app", page.GetTemplPayload())
+	if r.Method == http.MethodGet {
+		page := templ.PageObj("Home")
+		page.SetBody("<div>HELLO</div>")
+		page.IsAdmin(false)
+		page.SetFRScripts("frontend.js")
+		templ.Render(w, "app", page.GetTemplPayload())
+	} else {
+		Throw400(w, r)
+	}
 }
 
 func adminLogin(w http.ResponseWriter, r *http.Request) {
@@ -68,13 +75,13 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 
 	params := mux.Vars(r)
 
-	eventdata := map[string]string {
-		"name" : params["eventid"],
-	}	
+	eventdata := map[string]string{
+		"name": params["eventid"],
+	}
 
 	page := templ.PageObj("Event")
 	page.IsAdmin(false)
-	page.SetBody(templ.ClientLoginForm( eventdata ))
+	page.SetBody(templ.ClientLoginForm(eventdata))
 	page.SetFRScripts("frontend.js")
 	templ.Render(w, "app", page.GetTemplPayload())
 	return
@@ -83,11 +90,70 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 func adminDashboard(w http.ResponseWriter, r *http.Request) {
 	session.SessionAuthCheck(w, r, "/")
 
-	page := templ.PageObj("Dashboard")
-	page.SetBody(templ.AdminDashboard())
-	page.IsAdmin(true)
-	page.SetBKScripts("backend.js")
-	templ.Render(w, "app", page.GetTemplPayload())
+	if r.Method == http.MethodGet {
+		payload := templ.PagePayload{
+			Page:      "dashboard",
+			EventList: nil,
+		}
+
+		tab := r.FormValue("tab")
+		if tab != "" {
+			payload.Page = tab
+		}
+
+		if payload.Page == "dashboard" {
+			events, _ := api.EventList()
+			var eventRenderList = []map[string]interface{}{}
+			for _, event := range events {
+				var eventData = map[string]interface{}{
+					"eventid":     event.Id,
+					"eventName":   event.EventName,
+					"eventRecord": event.Record,
+					"eventActive": event.Active,
+					"eventTime":   event.EventTime,
+				}
+				eventRenderList = append(eventRenderList, eventData)
+			}
+			payload.EventList = eventRenderList
+		}
+
+		page := templ.PageObj("Dashboard")
+		page.SetBody(templ.AdminDashboard(payload))
+		page.IsAdmin(true)
+		page.SetBKScripts("backend.js")
+		templ.Render(w, "app", page.GetTemplPayload())
+	} else {
+		Throw400(w, r)
+	}
+}
+
+func createEvent(w http.ResponseWriter, r *http.Request) {
+	session.SessionAuthCheck(w, r, "/")
+
+	if r.Method == http.MethodGet {
+		payload := templ.PagePayload{
+			Page: "create_event",
+		}
+
+		page := templ.PageObj("Dashboard::Event")
+		page.SetBody(templ.AdminDashboard(payload))
+		page.IsAdmin(true)
+		page.SetBKScripts("backend.js")
+		templ.Render(w, "app", page.GetTemplPayload())
+		return
+	} else {
+		Throw400(w, r)
+	}
+}
+
+func editEvent(w http.ResponseWriter, r *http.Request) {
+	session.SessionAuthCheck(w, r, "/")
+
+	params := mux.Vars(r)
+	if params["eventid"] == "" {
+		http.Redirect(w, r, "/admin/dashboard", http.StatusSeeOther)
+		return
+	}
 }
 
 func adminSignout(w http.ResponseWriter, r *http.Request) {
@@ -96,8 +162,8 @@ func adminSignout(w http.ResponseWriter, r *http.Request) {
 	sess.Values["user"] = ""
 	sess.Values["authed"] = false
 	sess.Options.MaxAge = -1
-	err  := sess.Save(r, w)
-	if err  != nil {
+	err := sess.Save(r, w)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

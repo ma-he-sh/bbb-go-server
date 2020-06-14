@@ -38,7 +38,7 @@ func CreateTable() (rethinkdb.WriteResponse, error) {
 	setupkey := rethinkdb.TableCreateOpts{PrimaryKey: "setup"}
 	_, err = rethinkdb.DB(DBName).TableCreate(TBSetup, setupkey).Run(Session)
 
-	eventkey := rethinkdb.TableCreateOpts{PrimaryKey: "event"}
+	eventkey := rethinkdb.TableCreateOpts{PrimaryKey: "id"}
 	_, err = rethinkdb.DB(DBName).TableCreate(TBEvent, eventkey).Run(Session)
 
 	if err != nil {

@@ -11,6 +11,8 @@ button > svg {
 html, body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     background-color: rgba(149, 163, 171, 0.12);
 }
@@ -48,6 +50,24 @@ html, body {
         &:focus {
           border-color: #95a3ab;
         }
+    }
+}
+
+.input--group {
+    width: 100%;
+    float: left;
+    display: flex;
+
+    .input--wrapper {
+        flex: 1;
+    }
+
+    .input--wrapper:first-child {
+        margin-right: 2px;
+    }
+
+    .input--wrapper:last-child {
+        margin-left: 2px;
     }
 }
 
@@ -90,6 +110,7 @@ html, body {
     width: 100%;
     float: left;
 
+    // normal button
     .button--type {
         width: 100%;
         float: left;
@@ -108,6 +129,25 @@ html, body {
         box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), inset 0 1px 0 0 rgba(255,255,255,.45), inset 0 -1px 0 0 rgba(255,255,255,.15), 0 1px 0 0 rgba(255,255,255,.15);
         transition: all 100ms ease-in;
     }
+
+    // bk button
+    .bk--button {
+        width: 100%;
+        float: left;
+        height: 40px;
+        cursor: pointer;
+        border-radius: 3px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 14px;
+        text-decoration: none;
+        box-sizing: border-box;
+
+        font-weight: bold;
+
+        border: 1px solid rgba(0,0,0,.2);
+        transition: all 100ms ease-in;
+    }
 }
 
 .button--group {
@@ -123,6 +163,18 @@ html, body {
     }
 
     .button--type:last-child {
+        margin-left: 2px;
+    }
+
+    .bk--button  {
+        flex: 1;
+    }
+
+    .bk--button:first-child {
+        margin-right: 2px;
+    }
+
+    .bk--button:last-child {
         margin-left: 2px;
     }
 }
