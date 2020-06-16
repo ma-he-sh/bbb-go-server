@@ -21,7 +21,8 @@ func BBBEventRecording(eventid string) {
 }
 
 func BBBEventRecordings([]string) []string {
-
+	var stringArr = []string{}
+	return stringArr
 }
 
 func BBBEventDeleteRecording(recorid string) {

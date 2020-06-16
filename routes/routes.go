@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -18,7 +19,7 @@ func Routes(routes *mux.Router) {
 	routes.HandleFunc("/admin/dashboard/event/add/", createEvent).Methods("GET")
 	routes.HandleFunc("/admin/dashboard/event/edit/{eventid}", editEvent).Methods("GET")
 	routes.HandleFunc("/admin/signout", adminSignout).Methods("GET")
-	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET")
+	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET", "POST")
 }
 
 func rootRoute(w http.ResponseWriter, r *http.Request) {
@@ -69,21 +70,58 @@ func adminLogin(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Throw400(w, r)
 	}
+	return
 }
 
 func eventHandle(w http.ResponseWriter, r *http.Request) {
-
 	params := mux.Vars(r)
 
-	eventdata := map[string]string{
-		"name": params["eventid"],
-	}
+	if r.Method == http.MethodGet {
+		event, err := api.GetEvent(params["eventid"])
+		if err != nil {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
 
-	page := templ.PageObj("Event")
-	page.IsAdmin(false)
-	page.SetBody(templ.ClientLoginForm(eventdata))
-	page.SetFRScripts("frontend.js")
-	templ.Render(w, "app", page.GetTemplPayload())
+		eventdata := map[string]interface{}{
+			"name":    event.EventName,
+			"eventid": params["eventid"],
+			"active":  event.Active,
+			"time":    event.EventTime,
+		}
+
+		page := templ.PageObj("Event")
+		page.IsAdmin(false)
+		page.SetBody(templ.ClientLoginForm(eventdata))
+		page.SetFRScripts("frontend.js")
+		templ.Render(w, "app", page.GetTemplPayload())
+		return
+	} else if r.Method == http.MethodPost {
+		r.ParseForm()
+
+		eventID := r.FormValue("str_eventid")
+		strEmail := r.FormValue("str_email")
+		strName := r.FormValue("str_name")
+		strAccessCode := r.FormValue("str_token")
+
+		event, err := api.GetEvent(eventID)
+		if err != nil {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+
+		if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
+			fmt.Println(strEmail)
+			fmt.Println(strName)
+			http.Redirect(w, r, "//cloud.apistack.host", http.StatusSeeOther)
+			return
+		}
+
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	} else {
+		Throw400(w, r)
+	}
 	return
 }
 
@@ -111,6 +149,8 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 					"eventRecord": event.Record,
 					"eventActive": event.Active,
 					"eventTime":   event.EventTime,
+					"attendeePW":  event.GetAttendeePW(),
+					"moderatorPW": event.GetModeratorPW(),
 				}
 				eventRenderList = append(eventRenderList, eventData)
 			}

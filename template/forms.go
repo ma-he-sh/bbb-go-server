@@ -22,16 +22,17 @@ func AdminLoginForm(message string) string {
 	`)
 }
 
-func ClientLoginForm(event map[string]string) string {
+func ClientLoginForm(event map[string]interface{}) string {
 	return frontend(`
 	<div class='app--floating-modal'>
-		<form action='/admin/login' method='POST'>
+		<form action='' method='POST'>
 			<div class='modal--header'>
-				JOIN `+ event["name"] +`
+				JOIN ` + event["name"].(string) + `
 			</div>
 			<div class='modal--body'>
+			<input type='hidden' name='str_eventid' id='str_eventid' value='` + event["eventid"].(string) + `'>
 			` + Input(InputStruct{Type: "email", Id: "str_email", Name: "str_email", Label: "Email", Value: "", Atts: nil}) +
-			Input(InputStruct{Type: "text", Id: "str_name", Name: "str_name", Label: "Name", Value: "", Atts: nil}) +
+		Input(InputStruct{Type: "text", Id: "str_name", Name: "str_name", Label: "Name", Value: "", Atts: nil}) +
 		Input(InputStruct{Type: "password", Id: "str_token", Name: "str_token", Label: "Access Token", Value: "", Atts: nil}) + `
 			</div>
 			<div class='modal--footer'>

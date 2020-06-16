@@ -3,8 +3,8 @@ package redis
 import (
 	"time"
 
-	"github.com/go-redis/redis/v7"
 	env "github.com/devmarka/bbb-go-server/env"
+	"github.com/go-redis/redis/v7"
 	"github.com/pkg/errors"
 )
 

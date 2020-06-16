@@ -181,6 +181,29 @@
 							.event--body {
 								padding: 10px;
 								bpx-sizing: border-box;
+
+								.event--info-section {
+									width: 100%;
+									height: auto;
+									display: flex;
+									float: left;
+
+									.section--title, .section--value {
+										font-size: 14px;
+									}
+
+									.section--title {
+										max-width: 160px;
+										width: 100%;
+										line-height: 40px;
+									}
+
+									.section--value {
+										width: 100%;
+										flex: 1;
+										line-height: 40px;
+									}
+								}
 							}
 						}
 					}

@@ -68,6 +68,14 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 			</div>
 		</div>
 		<div class='event--body'>
+			<div class='event--info-section'>
+				<div class='section--title'>Attendee PW:</div>
+				<div class='section--value'>` + event["attendeePW"].(string) + `</div>
+			</div>
+			<div class='event--info-section'>
+				<div class='section--title'>Moderator PW:</div>
+				<div class='section--value'>` + event["moderatorPW"].(string) + `</div>
+			</div>
 			<div class='button--wrapper' style='width:200px;'>
 				<a href='` + eventLink + `' class='btn--mini'>Preview</a>
 			</div>

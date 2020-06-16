@@ -1,10 +1,12 @@
 package api
 
 import (
+	"errors"
 	"log"
 	"time"
 
 	db "github.com/devmarka/bbb-go-server/core/db"
+	"github.com/segmentio/ksuid"
 	"gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
@@ -14,7 +16,7 @@ type AuthStruct struct {
 }
 
 type EventStruct struct {
-	Id        string     `rethinkdb:`
+	Id        string     `rethinkdb:"id"`
 	EventName string     `rethinkdb:"name"`
 	EventTime string     `rethinkdb:"eventtime"`
 	Stamp     string     `rethinkdb:"stamp"`
@@ -27,6 +29,8 @@ func CreateEvent(event EventStruct, isNew bool) EventStruct {
 	setevent := event
 
 	if isNew {
+		setevent.Id = ksuid.New().String()
+
 		datetime := time.Now()
 		setevent.Stamp = datetime.Format("2016-01-02 15:04:05")
 	}
@@ -94,4 +98,22 @@ func InsertEvent(event EventStruct) (bool, error) {
 		return true, err
 	}
 	return false, err
+}
+
+// get event :: get event data
+func GetEvent(eventID string) (EventStruct, error) {
+	var event EventStruct
+	found := EventExists(eventID)
+	if !found {
+		return event, errors.New("event_not_found")
+	}
+
+	res, err := rethinkdb.Table(db.TBEvent).Get(eventID).Run(db.Session)
+	if err != nil {
+		return event, errors.New("event_not_found")
+	}
+	res.One(&event)
+	defer res.Close()
+
+	return event, err
 }
