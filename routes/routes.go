@@ -113,7 +113,11 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 		if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
 			fmt.Println(strEmail)
 			fmt.Println(strName)
-			http.Redirect(w, r, "//cloud.apistack.host", http.StatusSeeOther)
+
+			url := api.BBBCreateEvent(eventID, "http://locahost:8080")
+			fmt.Println(url)
+
+			http.Redirect(w, r, url, http.StatusSeeOther)
 			return
 		}
 

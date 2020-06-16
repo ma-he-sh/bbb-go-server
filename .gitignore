@@ -19,3 +19,6 @@ db_data
 
 # ignore node 
 node_modules
+
+!.example.env
+.env
