@@ -60,27 +60,36 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 
 	eventLink := `/event/` + event["eventid"].(string) + `/`
 
-	return `<div class='app--event-wrapper'>
+	card := `<div class='app--event-wrapper'>
 		<div class='event--header'>
 			<div class='event--title'>` + event["eventName"].(string) + `</div>
 			<div class='event--status'>
 				<div class='event--active'>` + status + `</div>
-			</div>
-		</div>
+			</div>`
+
+	if event["eventRecord"].(bool) {
+		card += `<div class='event--status'>
+					<div class='event--active'>Recording</div>
+				</div>`
+	}
+
+	card += `</div>
 		<div class='event--body'>
 			<div class='event--info-section'>
 				<div class='section--title'>Attendee PW:</div>
-				<div class='section--value'>` + event["attendeePW"].(string) + `</div>
+				<div class='section--value'><code>` + event["attendeePW"].(string) + `</code></div>
 			</div>
 			<div class='event--info-section'>
 				<div class='section--title'>Moderator PW:</div>
-				<div class='section--value'>` + event["moderatorPW"].(string) + `</div>
+				<div class='section--value'><code>` + event["moderatorPW"].(string) + `</code></div>
 			</div>
 			<div class='button--wrapper' style='width:200px;'>
 				<a href='` + eventLink + `' class='btn--mini'>Preview</a>
 			</div>
 		</div>
 	</div>`
+
+	return card
 }
 
 func eventList(events []map[string]interface{}) string {

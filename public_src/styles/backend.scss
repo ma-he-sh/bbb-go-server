@@ -162,12 +162,13 @@
 								.event--status {
 									min-width: 100px;
 									float: right;
-									padding: 5px 10px;
+									padding: 5px 10px 0px 0px;
 									box-sizing: border-box;
 								}
 
 								.event--active {
 									width: 100%;
+									padding: 0px 10px 0px 10px;
 									height: 28px;
 									float: left;
 									border: 1px solid rgba(149, 163, 171, 0.5);
@@ -175,6 +176,7 @@
 									border-radius: 3px;
 									text-align: center;
 									line-height: 28px;
+									box-sizing: border-box;
 								}
 							}
 

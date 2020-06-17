@@ -1,7 +1,6 @@
 package rest
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -100,7 +99,7 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 
 		eventID := r.FormValue("str_eventid")
-		strEmail := r.FormValue("str_email")
+		//strEmail := r.FormValue("str_email")
 		strName := r.FormValue("str_name")
 		strAccessCode := r.FormValue("str_token")
 
@@ -110,18 +109,15 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		logouturl := r.Host + r.URL.Path
 		if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
-			fmt.Println(strEmail)
-			fmt.Println(strName)
-
-			url := api.BBBCreateEvent(eventID, "http://locahost:8080")
-			fmt.Println(url)
-
-			http.Redirect(w, r, url, http.StatusSeeOther)
-			return
+			url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
+			if allowed {
+				http.Redirect(w, r, url, http.StatusSeeOther)
+				return
+			}
 		}
-
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, r.URL.Path+"?auth=error", http.StatusSeeOther)
 		return
 	} else {
 		Throw400(w, r)

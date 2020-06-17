@@ -3,6 +3,7 @@ module github.com/devmarka/bbb-go-server
 go 1.13
 
 require (
+	github.com/basgys/goxml2json v1.1.0
 	github.com/go-redis/redis/v7 v7.4.0
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/handlers v1.4.2 // indirect
