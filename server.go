@@ -9,6 +9,7 @@ import (
 
 	db "github.com/devmarka/bbb-go-server/core/db"
 	routes "github.com/devmarka/bbb-go-server/routes"
+	env "github.com/devmarka/bbb-go-server/env"
 )
 
 func main() {
@@ -16,7 +17,7 @@ func main() {
 
 	r := mux.NewRouter().StrictSlash(true)
 
-	mainRouter := r.Host("localhost").Subrouter()
+	mainRouter := r.Host(env.APPDomain()).Subrouter()
 	routes.Routes(mainRouter)
 	routes.Rest(mainRouter)
 
