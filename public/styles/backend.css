@@ -1,0 +1,405 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+button > svg {
+  pointer-event: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: rgba(149, 163, 171, 0.12);
+}
+
+.input--wrapper {
+  width: 100%;
+  float: left;
+  margin-bottom: 10px;
+}
+.input--wrapper .input--label, .input--wrapper .input--type-text {
+  float: left;
+  width: 100%;
+}
+.input--wrapper .input--label {
+  font-size: 10px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #727272;
+}
+.input--wrapper .input--type-text {
+  height: 40px;
+  text-indent: 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 0px;
+  margin: 6px 0px 0px 0px;
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 0 rgba(255, 255, 255, 0.15), 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  transition: all 100ms ease-in;
+  box-sizing: border-box;
+}
+.input--wrapper .input--type-text:focus {
+  border-color: #95a3ab;
+}
+
+.input--group {
+  width: 100%;
+  float: left;
+  display: flex;
+}
+.input--group .input--wrapper {
+  flex: 1;
+}
+.input--group .input--wrapper:first-child {
+  margin-right: 2px;
+}
+.input--group .input--wrapper:last-child {
+  margin-left: 2px;
+}
+
+/** button types **/
+.button--primary {
+  background-color: rgba(13, 82, 191, 0.84);
+  color: #FFF;
+}
+.button--primary:hover {
+  background-color: #0d52bf;
+}
+
+.button--secondary {
+  background-color: rgba(72, 90, 108, 0.84);
+  color: #FFF;
+}
+.button--secondary:hover {
+  background-color: #485a6c;
+}
+
+.button--tertiary {
+  background-color: rgba(72, 90, 108, 0.84);
+}
+.button--tertiary:hover {
+  background-color: #485a6c;
+}
+
+.button--normal {
+  background-color: transparent;
+}
+.button--normal:hover {
+  background-color: transparent;
+}
+
+.button--wrapper {
+  width: 100%;
+  float: left;
+}
+.button--wrapper .button--type {
+  width: 100%;
+  float: left;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 12px;
+  text-decoration: none;
+  box-sizing: border-box;
+  background-image: linear-gradient(to bottom, transparent, transparent 50%, rgba(0, 0, 0, 0.04));
+  text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), inset 0 1px 0 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 0 rgba(255, 255, 255, 0.15), 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  transition: all 100ms ease-in;
+}
+.button--wrapper .bk--button {
+  width: 100%;
+  float: left;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 14px;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-weight: bold;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: all 100ms ease-in;
+}
+
+.button--group {
+  display: flex;
+  justify-content: space-between;
+}
+.button--group .button--type {
+  flex: 1;
+}
+.button--group .button--type:first-child {
+  margin-right: 2px;
+}
+.button--group .button--type:last-child {
+  margin-left: 2px;
+}
+.button--group .bk--button {
+  flex: 1;
+}
+.button--group .bk--button:first-child {
+  margin-right: 2px;
+}
+.button--group .bk--button:last-child {
+  margin-left: 2px;
+}
+
+.toggle--control {
+  width: 100%;
+  float: left;
+  height: 40px;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  padding-left: 60px;
+  margin: 6px 0px 0px 0px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+}
+.toggle--control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.toggle--control input:checked ~ .control {
+  background-color: rgba(13, 82, 191, 0.84);
+}
+.toggle--control input:checked ~ .control:after {
+  left: 35px;
+}
+.toggle--control .control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 28px;
+  width: 60px;
+  border-radius: 14px;
+  background-color: darkgray;
+  transition: background-color 0.15s ease-in;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+}
+.toggle--control .control:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 14px;
+  background: white;
+  transition: left 0.15s ease-in;
+}
+
+.app--backend-wrapper {
+  width: 100%;
+  height: 100%;
+  float: left;
+  padding: 10px 10px 10px 10px;
+  box-sizing: border-box;
+}
+.app--backend-wrapper .app--backend {
+  max-width: 1200px;
+  min-width: 300px;
+  width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 3px;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+  box-sizing: border-box;
+  background-color: #FFF;
+  position: fixed;
+  right: 0;
+  left: 0;
+}
+.app--backend-wrapper .app--backend .bk--header, .app--backend-wrapper .app--backend .bk--body {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--header {
+  padding: 10px 10px 0px 10px;
+  border-bottom: 1px solid rgba(149, 163, 171, 0.5);
+  display: flex;
+}
+.app--backend-wrapper .app--backend .bk--header .nav--wrapper {
+  width: 100%;
+  flex: 1;
+}
+.app--backend-wrapper .app--backend .bk--header .nav--wrapper .nav--item {
+  min-width: 80px;
+  width: auto;
+  padding: 0px 10px 0px 10px;
+  line-height: 40px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+  margin-right: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-top: 1px solid rgba(149, 163, 171, 0.5);
+  border-left: 1px solid rgba(149, 163, 171, 0.5);
+  border-right: 1px solid rgba(149, 163, 171, 0.5);
+}
+.app--backend-wrapper .app--backend .bk--header .nav--wrapper .nav--item:hover {
+  background-color: rgba(149, 163, 171, 0.24);
+}
+.app--backend-wrapper .app--backend .bk--header .nav--buttons {
+  width: 80px;
+  height: 40px;
+  float: right;
+  border-left: 1px solid rgba(149, 163, 171, 0.5);
+  padding-left: 10px;
+}
+.app--backend-wrapper .app--backend .bk--header .nav--buttons .nav--button {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  padding-top: 6px;
+  float: right;
+  border-style: none;
+  border: none;
+  background-color: transparent;
+  color: #273445;
+  cursor: pointer;
+}
+.app--backend-wrapper .app--backend .bk--header .nav--buttons .nav--button:hover {
+  color: rgba(39, 52, 69, 0.84);
+}
+.app--backend-wrapper .app--backend .bk--body {
+  padding: 10px;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper {
+  width: 100%;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+  box-sizing: border-box;
+  border-radius: 3px;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-header, .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body, .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-footer {
+  width: 100%;
+  height: auto;
+  float: left;
+  box-sizing: border-box;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-header {
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(149, 163, 171, 0.5);
+  padding: 10px;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body {
+  padding: 10px;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper {
+  width: 100%;
+  height: auto;
+  min-height: 80px;
+  float: left;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+  margin-bottom: 20px;
+  border-radius: 3px;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--header, .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body, .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--footer {
+  width: 100%;
+  height: auto;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--header {
+  line-height: 40px;
+  font-size: 14px;
+  text-indent: 10px;
+  display: flex;
+  border-bottom: 1px solid rgba(149, 163, 171, 0.5);
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--header .event--title {
+  width: 100%;
+  flex: 1;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--header .event--status {
+  min-width: 100px;
+  float: right;
+  padding: 5px 10px 0px 0px;
+  box-sizing: border-box;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--header .event--active {
+  width: 100%;
+  padding: 0px 10px 0px 10px;
+  height: 28px;
+  float: left;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+  background-color: rgba(149, 163, 171, 0.24);
+  border-radius: 3px;
+  text-align: center;
+  line-height: 28px;
+  box-sizing: border-box;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body {
+  padding: 10px;
+  bpx-sizing: border-box;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section {
+  width: 100%;
+  height: auto;
+  display: flex;
+  float: left;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section .section--title, .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section .section--value {
+  font-size: 14px;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section .section--title {
+  max-width: 160px;
+  width: 100%;
+  line-height: 40px;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section .section--value {
+  width: 100%;
+  flex: 1;
+  line-height: 40px;
+}
+.app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-footer {
+  padding: 10px;
+  border-top: 1px solid rgba(149, 163, 171, 0.5);
+}
+
+.btn--mini {
+  width: 100%;
+  height: 28px;
+  float: left;
+  border: 1px solid rgba(149, 163, 171, 0.5);
+  background-color: rgba(149, 163, 171, 0.24);
+  border-radius: 3px;
+  text-align: center;
+  line-height: 28px;
+  color: #000;
+  text-decoration: none;
+}

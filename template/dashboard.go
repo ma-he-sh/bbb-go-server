@@ -106,6 +106,8 @@ func eventList(events []map[string]interface{}) string {
 		eventTempl += eventTemplWrapper(i, event)
 	}
 
+	eventTempl += 
+
 	eventTempl += `</div>
 		</div>
 	</div>`

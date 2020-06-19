@@ -19,7 +19,11 @@
   "devDependencies": {
     "@types/jquery": "^3.3.38",
     "css-loader": "^3.5.3",
+    "fiber": "^1.0.4",
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.1.0",
     "node-sass": "^4.14.1",
+    "sass": "^1.26.8",
     "sass-loader": "^8.0.2",
     "source-map-loader": "^1.0.0",
     "style-loader": "^1.2.1",

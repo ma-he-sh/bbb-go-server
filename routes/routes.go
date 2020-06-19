@@ -28,7 +28,6 @@ func rootRoute(w http.ResponseWriter, r *http.Request) {
 		page := templ.PageObj("Home")
 		page.SetBody("<div>HELLO</div>")
 		page.IsAdmin(false)
-		page.SetFRScripts("frontend.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 	} else {
 		Throw400(w, r)
@@ -40,7 +39,6 @@ func adminLogin(w http.ResponseWriter, r *http.Request) {
 
 	page := templ.PageObj("Signin")
 	page.IsAdmin(false)
-	page.SetFRScripts("frontend.js")
 	if r.Method == http.MethodGet {
 		page.SetBody(templ.AdminLoginForm(""))
 		templ.Render(w, "app", page.GetTemplPayload())
@@ -92,7 +90,6 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 		page := templ.PageObj("Event")
 		page.IsAdmin(false)
 		page.SetBody(templ.ClientLoginForm(eventdata))
-		page.SetFRScripts("frontend.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 		return
 	} else if r.Method == http.MethodPost {
@@ -160,7 +157,6 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 		page := templ.PageObj("Dashboard")
 		page.SetBody(templ.AdminDashboard(payload))
 		page.IsAdmin(true)
-		page.SetBKScripts("backend.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 	} else {
 		Throw400(w, r)
@@ -178,7 +174,6 @@ func createEvent(w http.ResponseWriter, r *http.Request) {
 		page := templ.PageObj("Dashboard::Event")
 		page.SetBody(templ.AdminDashboard(payload))
 		page.IsAdmin(true)
-		page.SetBKScripts("backend.js")
 		templ.Render(w, "app", page.GetTemplPayload())
 		return
 	} else {

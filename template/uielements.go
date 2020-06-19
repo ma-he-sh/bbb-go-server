@@ -144,3 +144,18 @@ func InputToggle( params ToggleStruct ) string {
 		</label>
 	</div>`
 }
+
+type TableViewStruct struct {
+	Columns map[string]string
+	Data []map[string]interface{}
+}
+
+func TableView( params TableViewStruct ) string {
+	var template string
+
+	func Columns( columns  )
+
+	for k, v := range params.Columns {
+		template += 
+	}
+}

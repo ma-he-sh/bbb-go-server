@@ -1,8 +1,6 @@
 import $ from "jquery";
 import swal from "sweetalert";
 
-import "../styles/backend.scss";
-
 window.onload = () => {
 
 	$('#admin_create_event').submit(function(e:any) {
