@@ -59,6 +59,8 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 	}
 
 	eventLink := `/event/` + event["eventid"].(string) + `/`
+	joinLink := `/admin/dashboard/join/` + event["eventid"].(string) + `/` 
+	shareLink := event["domain"].(string) + eventLink
 
 	card := `<div class='app--event-wrapper'>
 		<div class='event--header'>
@@ -83,8 +85,16 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 				<div class='section--title'>Moderator PW:</div>
 				<div class='section--value'><code>` + event["moderatorPW"].(string) + `</code></div>
 			</div>
+			<div class='event--info-section'>
+				<div class='input--wrapper'>
+				`+Input(InputStruct{Type: "text", Id: "", Name: "", Label: "Share Link", Value: shareLink, Atts: nil}) +`
+				</div>
+			</div>
+			<div class='button--wrapper' style='width:200px;margin-right:10px;'>
+				<a target='_self' href='` + joinLink + `' class='btn--mini'>Join</a>
+			</div>
 			<div class='button--wrapper' style='width:200px;'>
-				<a href='` + eventLink + `' class='btn--mini'>Preview</a>
+				<a target='_blank' href='` + eventLink + `' class='btn--mini'>Preview</a>
 			</div>
 		</div>
 	</div>`
@@ -106,7 +116,7 @@ func eventList(events []map[string]interface{}) string {
 		eventTempl += eventTemplWrapper(i, event)
 	}
 
-	eventTempl += 
+	eventTempl += ""
 
 	eventTempl += `</div>
 		</div>

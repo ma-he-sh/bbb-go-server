@@ -2,7 +2,6 @@ package rest
 
 import (
 	"net/http"
-
 	"github.com/gorilla/mux"
 
 	api "github.com/devmarka/bbb-go-server/core/api"
@@ -17,6 +16,7 @@ func Routes(routes *mux.Router) {
 	routes.HandleFunc("/admin/dashboard/", adminDashboard).Methods("GET")
 	routes.HandleFunc("/admin/dashboard/event/add/", createEvent).Methods("GET")
 	routes.HandleFunc("/admin/dashboard/event/edit/{eventid}", editEvent).Methods("GET")
+	routes.HandleFunc("/admin/dashboard/join/{eventid}/", adminJoin).Methods("GET")
 	routes.HandleFunc("/admin/signout", adminSignout).Methods("GET")
 	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET", "POST")
 }
@@ -67,6 +67,34 @@ func adminLogin(w http.ResponseWriter, r *http.Request) {
 	} else {
 		Throw400(w, r)
 	}
+	return
+}
+
+func adminJoin(w http.ResponseWriter, r *http.Request) {
+	session.SessionAuthCheck(w, r, "/")
+
+	params := mux.Vars(r)
+	event, err := api.GetEvent(params["eventid"])
+	if err != nil {
+		http.Redirect(w, r, "/admin/dashboard", http.StatusSeeOther)
+		return
+	}
+
+	// get user session
+	sess, _ := session.CookieStore.Get(r, "user_cookie")
+	strName := sess.Values["user"].(string)
+	strAccessCode := event.GetModeratorPW()
+	eventID := params["eventid"]
+
+
+	logouturl := env.APPDOMAIN_name() + `/admin/dashboard`
+	url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
+	if allowed {
+		http.Redirect(w, r, url, http.StatusSeeOther)
+		return
+	}
+
+	http.Redirect(w, r, "/admin/dashboard", http.StatusSeeOther)
 	return
 }
 
@@ -148,6 +176,7 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 					"eventTime":   event.EventTime,
 					"attendeePW":  event.GetAttendeePW(),
 					"moderatorPW": event.GetModeratorPW(),
+					"domain": env.APPDOMAIN_name(),
 				}
 				eventRenderList = append(eventRenderList, eventData)
 			}

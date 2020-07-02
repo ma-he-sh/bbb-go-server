@@ -151,20 +151,21 @@ type TableViewStruct struct {
 }
 
 func TableView( params TableViewStruct ) string {
-	var template string
+	// var template string
 
-	func get_column( columns  ) {
+	// func get_column( columns  ) {
 
-	}
+	// }
 
-	row := ""
-	row += "<div class='row header'>"
-	row += get_column( params.Columns )
-	row += "</div>"
+	// row := ""
+	// row += "<div class='row header'>"
+	// row += get_column( params.Columns )
+	// row += "</div>"
 
-	for k, v := range params.Data {
-		row += "<div class='row'>"
-		row += get_column( v )
-		row += "</div>"
-	}
+	// for k, v := range params.Data {
+	// 	row += "<div class='row'>"
+	// 	row += get_column( v )
+	// 	row += "</div>"
+	// }
+	return ""
 }

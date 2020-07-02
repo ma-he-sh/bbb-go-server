@@ -22,6 +22,10 @@ func APPDomain() string {
 	return os.Getenv("APP_DOMAIN")
 }
 
+func APPDOMAIN_name() string {
+	return os.Getenv("APP_DOMAIN_NAME")
+}
+
 func APPPort() string {
 	return os.Getenv("APP_PORT")
 }
