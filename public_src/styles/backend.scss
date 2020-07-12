@@ -130,6 +130,8 @@
 					.bk--cont-body {
 						padding: 10px;
 						float: left;
+						max-height: calc( 100vh - 182px );
+						overflow-y: scroll;
 
 						.app--event-wrapper {
 							width: 100%;

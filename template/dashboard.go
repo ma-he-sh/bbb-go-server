@@ -91,11 +91,18 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 				` + Input(InputStruct{Type: "text", Id: "", Name: "", Label: "Share Link", Value: shareLink, Atts: nil}) + `
 				</div>
 			</div>
-			<div class='button--wrapper' style='width:200px;margin-right:10px;'>
-				<a target='_self' href='` + joinLink + `' class='btn--mini'>Join</a>
+			<div style='width:50%;float:left;'>
+				<div class='button--wrapper' style='width:200px;margin-right:10px;'>
+					<a target='_blank' href='` + joinLink + `' class='btn--mini'>Join</a>
+				</div>
+				<div class='button--wrapper' style='width:200px;'>
+					<a target='_blank' href='` + eventLink + `' class='btn--mini'>Preview</a>
+				</div>
 			</div>
-			<div class='button--wrapper' style='width:200px;'>
-				<a target='_blank' href='` + eventLink + `' class='btn--mini'>Preview</a>
+			<div style='width:50%;float:left;'>
+				<div class='button--wrapper'>
+					<a data-action='delete' data-event-id='`+ event["eventid"].(string) +`'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-trash'><polyline points='3 6 5 6 21 6'></polyline><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path></svg></a>
+				</div>
 			</div>
 		</div>
 	</div>`

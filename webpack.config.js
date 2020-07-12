@@ -1,16 +1,5 @@
 var path = require("path");
 var webpack = require("webpack");
-var fs = require('fs');
-
-// get the nodeModules
-var nodeModules = {};
-fs.readdirSync('node_modules')
-    .filter(function(x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        nodeModules[mod] = 'commonjs ' + mod;
-    });
 
 module.exports = {
     entry: {
@@ -49,14 +38,8 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.json'],
     },
     node: {
+        globals:
         fs: 'empty',
-        console: true,
-        net: 'empty',
-        tls: 'empty'
-    },
-    externals: {
-        react: "React",
-        "react-dom": "ReactDOM"
     },
     output: {
         path: path.resolve(__dirname, 'public/script'),
