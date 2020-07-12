@@ -2,6 +2,7 @@ package rest
 
 import (
 	"net/http"
+
 	"github.com/gorilla/mux"
 
 	api "github.com/devmarka/bbb-go-server/core/api"
@@ -86,7 +87,6 @@ func adminJoin(w http.ResponseWriter, r *http.Request) {
 	strAccessCode := event.GetModeratorPW()
 	eventID := params["eventid"]
 
-
 	logouturl := env.APPDOMAIN_name() + `/admin/dashboard`
 	url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
 	if allowed {
@@ -109,10 +109,11 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 		}
 
 		eventdata := map[string]interface{}{
-			"name":    event.EventName,
-			"eventid": params["eventid"],
-			"active":  event.Active,
-			"time":    event.EventTime,
+			"name":         event.EventName,
+			"eventid":      params["eventid"],
+			"active":       event.Active,
+			"time":         event.EventTime,
+			"toggle_email": event.ShowEmail(),
 		}
 
 		page := templ.PageObj("Event")
@@ -176,7 +177,7 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 					"eventTime":   event.EventTime,
 					"attendeePW":  event.GetAttendeePW(),
 					"moderatorPW": event.GetModeratorPW(),
-					"domain": env.APPDOMAIN_name(),
+					"domain":      env.APPDOMAIN_name(),
 				}
 				eventRenderList = append(eventRenderList, eventData)
 			}

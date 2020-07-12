@@ -34,13 +34,14 @@ func eventTemplate(data map[string]interface{}) string {
 				</div>
 				<div class='bk--cont-body'>
 					` + InputToggle(ToggleStruct{Id: "toggle_active", Name: "toggle_active", Label: "Active", Checked: data["toggle_active"].(bool), Atts: nil}) +
+		InputToggle(ToggleStruct{Id: "toggle_record", Name: "toggle_record", Label: "Record", Checked: data["toggle_record"].(bool), Atts: nil}) +
+		InputToggle(ToggleStruct{Id: "toggle_email", Name: "toggle_email", Label: "Require Email", Checked: data["toggle_email"].(bool), Atts: nil}) +
 		Input(InputStruct{Type: "text", Id: "str_event_name", Name: "str_event_name", Label: "Event Name", Value: data["str_event_name"].(string), Atts: nil}) +
 		Input(InputStruct{Type: "text", Id: "str_event_message", Name: "str_event_message", Label: "Event Message", Value: data["str_event_message"].(string), Atts: nil}) + `
 					<div class='input--group'>
 						` + Input(InputStruct{Type: "text", Id: "str_moderator_pw", Name: "str_moderator_pw", Label: "Moderator Passw", Value: data["str_moderator_pw"].(string), Atts: nil}) +
 		Input(InputStruct{Type: "text", Id: "str_attendee_pw", Name: "str_attendee_pw", Label: "Attendee Passw", Value: data["str_attendee_pw"].(string), Atts: nil}) + `
 					</div>
-					` + InputToggle(ToggleStruct{Id: "toggle_record", Name: "toggle_record", Label: "Record", Checked: data["toggle_record"].(bool), Atts: nil}) + `
 				</div>
 				<div class='bk--cont-footer'>
 					<div class='button--wrapper' style='width:200px;'>
@@ -59,7 +60,7 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 	}
 
 	eventLink := `/event/` + event["eventid"].(string) + `/`
-	joinLink := `/admin/dashboard/join/` + event["eventid"].(string) + `/` 
+	joinLink := `/admin/dashboard/join/` + event["eventid"].(string) + `/`
 	shareLink := event["domain"].(string) + eventLink
 
 	card := `<div class='app--event-wrapper'>
@@ -87,7 +88,7 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 			</div>
 			<div class='event--info-section'>
 				<div class='input--wrapper'>
-				`+Input(InputStruct{Type: "text", Id: "", Name: "", Label: "Share Link", Value: shareLink, Atts: nil}) +`
+				` + Input(InputStruct{Type: "text", Id: "", Name: "", Label: "Share Link", Value: shareLink, Atts: nil}) + `
 				</div>
 			</div>
 			<div class='button--wrapper' style='width:200px;margin-right:10px;'>
@@ -174,6 +175,7 @@ func newEvent() string {
 		"str_attendee_pw":   attendeePW,
 		"str_event_message": "",
 		"toggle_record":     false,
+		"toggle_email":      false,
 	}
 
 	return eventTemplate(eventData)
@@ -187,6 +189,7 @@ func editEvent() string {
 		"str_attendee_pw":   "",
 		"str_event_message": "",
 		"toggle_record":     false,
+		"toggle_email":      false,
 	}
 
 	return eventTemplate(eventData)

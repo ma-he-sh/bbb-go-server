@@ -365,7 +365,7 @@ html, body {
 }
 .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body {
   padding: 10px;
-  bpx-sizing: border-box;
+  box-sizing: border-box;
 }
 .app--backend-wrapper .app--backend .bk--body .bk--content .bk--content-wrapper .bk--cont-body .app--event-wrapper .event--body .event--info-section {
   width: 100%;

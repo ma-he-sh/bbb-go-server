@@ -18,6 +18,7 @@ window.onload = () => {
 			moderatorpw: $(this).find('input#str_moderator_pw').val(),
 			attendeepw : $(this).find('input#str_attendee_pw').val(),
 			record: ( $(this).find('input#toggle_record').prop('checked') ? '_checked' : '_uncheck' ),
+			email: ( $(this).find('input#toggle_email').prop('checked') ? '_checked' : '_uncheck' ),
 			welcome: $(this).find('input#str_event_message').val(),
 		}
 

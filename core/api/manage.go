@@ -6,7 +6,6 @@ import (
 	"time"
 
 	db "github.com/devmarka/bbb-go-server/core/db"
-	"github.com/segmentio/ksuid"
 	"gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
@@ -16,21 +15,20 @@ type AuthStruct struct {
 }
 
 type EventStruct struct {
-	Id        string     `rethinkdb:"id"`
-	EventName string     `rethinkdb:"name"`
-	EventTime string     `rethinkdb:"eventtime"`
-	Stamp     string     `rethinkdb:"stamp"`
-	Auth      AuthStruct `rethinkdb:"auth"`
-	Record    bool       `rethinkdb:"record"`
-	Active    bool       `rethinkdb:"active"`
+	Id          string     `rethinkdb:"id"`
+	EventName   string     `rethinkdb:"name"`
+	EventTime   string     `rethinkdb:"eventtime"`
+	Stamp       string     `rethinkdb:"stamp"`
+	Auth        AuthStruct `rethinkdb:"auth"`
+	Record      bool       `rethinkdb:"record"`
+	ToggleEmail bool       `rethinkdb:"show_email"`
+	Active      bool       `rethinkdb:"active"`
 }
 
 func CreateEvent(event EventStruct, isNew bool) EventStruct {
 	setevent := event
 
 	if isNew {
-		setevent.Id = ksuid.New().String()
-
 		datetime := time.Now()
 		setevent.Stamp = datetime.Format("2016-01-02 15:04:05")
 	}
@@ -60,6 +58,14 @@ func (event *EventStruct) GetAttendeePW() string {
 
 func (event *EventStruct) SetAttendeePW(passw string) {
 	event.Auth.AttendeePW = passw
+}
+
+func (event *EventStruct) AllowRecord() bool {
+	return event.Record
+}
+
+func (event *EventStruct) ShowEmail() bool {
+	return event.ToggleEmail
 }
 
 // EventList

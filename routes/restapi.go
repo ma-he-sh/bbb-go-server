@@ -2,6 +2,9 @@ package rest
 
 import (
 	"net/http"
+	"strconv"
+	"strings"
+	"time"
 
 	"encoding/json"
 
@@ -23,6 +26,12 @@ func JSONPayload(w http.ResponseWriter, data interface{}) {
 
 func Rest(routes *mux.Router) {
 	routes.HandleFunc("/admin/create/event", addEvent).Methods("POST")
+}
+
+func getEventID(eventname string) string {
+	now := time.Now()
+	stamp := now.Unix()
+	return strings.ToLower(strings.ReplaceAll(eventname, " ", "_")) + "_" + strconv.FormatInt(stamp, 10)
 }
 
 func addEvent(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +64,7 @@ func addEvent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	eventdata := api.CreateEvent(api.EventStruct{
+		Id:        getEventID(dataForm["eventName"].(string)),
 		EventName: dataForm["eventName"].(string),
 		EventTime: "",
 		Auth: api.AuthStruct{
