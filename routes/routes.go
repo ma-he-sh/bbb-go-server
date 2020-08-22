@@ -135,7 +135,7 @@ func eventHandle(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		logouturl := r.Host + r.URL.Path
+		logouturl := env.APPDOMAIN_name() + r.URL.Path
 		if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
 			url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
 			if allowed {
@@ -248,7 +248,7 @@ func eventJoin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logouturl := r.Host + "/event/" + eventID + "/"
+	logouturl := env.APPDOMAIN_name() + "/event/" + eventID + "/"
 	if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
 		url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
 		if allowed {
