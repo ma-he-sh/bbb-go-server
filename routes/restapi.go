@@ -13,6 +13,8 @@ import (
 	session "github.com/devmarka/bbb-go-server/core/session"
 	env "github.com/devmarka/bbb-go-server/env"
 	"github.com/gorilla/mux"
+
+	"github.com/zpnk/go-bitly"
 )
 
 func JSONPayload(w http.ResponseWriter, data interface{}) {
@@ -157,10 +159,16 @@ func genJoinLink(w http.ResponseWriter, r *http.Request) {
 	params.Add("code", event.GetAttendeePW())
 
 	joinURL := env.APPDOMAIN_name() + "/join/" + event.Id + "/auth?" + params.Encode()
+	b := bitly.New(env.BITLYToken())
+	shortURL, err := b.Links.Shorten(joinURL)
+	if err != nil {
+		JSONPayload(w, send)
+		return
+	}
 
 	send["success"] = true
 	send["payload"] = map[string]string{
-		"url": joinURL,
+		"url": shortURL.URL,
 	}
 
 	JSONPayload(w, send)

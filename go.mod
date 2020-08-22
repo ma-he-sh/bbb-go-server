@@ -13,5 +13,6 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/segmentio/ksuid v1.0.2
+	github.com/zpnk/go-bitly v0.0.0-20170609220507-2da97f724d1d
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
 )

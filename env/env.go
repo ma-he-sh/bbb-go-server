@@ -73,3 +73,7 @@ func BBBKey() string {
 func COOKIEHash() string {
 	return os.Getenv("HASH_SALT")
 }
+
+func BITLYToken() string {
+	return os.Getenv("BITLY_TOKEN")
+}
