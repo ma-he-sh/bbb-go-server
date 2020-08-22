@@ -11,6 +11,7 @@ import (
 
 	api "github.com/devmarka/bbb-go-server/core/api"
 	session "github.com/devmarka/bbb-go-server/core/session"
+	env "github.com/devmarka/bbb-go-server/env"
 	"github.com/gorilla/mux"
 )
 
@@ -155,7 +156,7 @@ func genJoinLink(w http.ResponseWriter, r *http.Request) {
 	params.Add("uname", dataForm["username"].(string))
 	params.Add("code", event.GetAttendeePW())
 
-	joinURL := r.Host + "/join/" + event.Id + "/auth?" + params.Encode()
+	joinURL := env.APPDOMAIN_name() + "/join/" + event.Id + "/auth?" + params.Encode()
 
 	send["success"] = true
 	send["payload"] = map[string]string{
