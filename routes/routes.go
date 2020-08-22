@@ -27,7 +27,7 @@ func rootRoute(w http.ResponseWriter, r *http.Request) {
 	session.SessionRedirect(w, r, "/admin/dashboard")
 	if r.Method == http.MethodGet {
 		page := templ.PageObj("Home")
-		page.SetBody("<div>HELLO</div>")
+		page.SetBody("<div></div>")
 		page.IsAdmin(false)
 		templ.Render(w, "app", page.GetTemplPayload())
 	} else {
