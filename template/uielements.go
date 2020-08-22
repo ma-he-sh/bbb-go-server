@@ -114,14 +114,13 @@ func Input(params InputStruct) string {
 	</div>`
 }
 
-
 type ToggleStruct struct {
 	Id, Name, Label string
-	Checked bool
-	Atts    map[string]string
+	Checked         bool
+	Atts            map[string]string
 }
 
-func InputToggle( params ToggleStruct ) string {
+func InputToggle(params ToggleStruct) string {
 	atts := ""
 	if params.Atts == nil {
 		atts = ""
@@ -137,9 +136,9 @@ func InputToggle( params ToggleStruct ) string {
 	}
 
 	return `<div class='input--wrapper'>
-		<label class='input--label'>`+params.Label+`</label>
+		<label class='input--label'>` + params.Label + `</label>
 		<label class="toggle--control">
-		  <input type="checkbox" id='`+params.Id+`' name='`+params.Name+`' `+checked+` `+atts+`>
+		  <input type="checkbox" id='` + params.Id + `' name='` + params.Name + `' ` + checked + ` ` + atts + `>
 		  <span class="control"></span>
 		</label>
 	</div>`
@@ -147,10 +146,10 @@ func InputToggle( params ToggleStruct ) string {
 
 type TableViewStruct struct {
 	Columns map[string]string
-	Data []map[string]interface{}
+	Data    []map[string]interface{}
 }
 
-func TableView( params TableViewStruct ) string {
+func TableView(params TableViewStruct) string {
 	// var template string
 
 	// func get_column( columns  ) {

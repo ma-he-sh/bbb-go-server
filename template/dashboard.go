@@ -63,7 +63,7 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 	joinLink := `/admin/dashboard/join/` + event["eventid"].(string) + `/`
 	shareLink := event["domain"].(string) + eventLink
 
-	card := `<div class='app--event-wrapper'>
+	card := `<div id='event_wrapper_` + event["eventid"].(string) + `' class='app--event-wrapper'>
 		<div class='event--header'>
 			<div class='event--title'>` + event["eventName"].(string) + `</div>
 			<div class='event--status'>
@@ -88,26 +88,43 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 			</div>
 			<div class='event--info-section'>
 				<div class='input--wrapper'>
-				` + Input(InputStruct{Type: "text", Id: "", Name: "", Label: "Share Link", Value: shareLink, Atts: nil}) + `
+				` + Input(InputStruct{Type: "text", Id: "form_link", Name: "form_link", Label: "Form Link", Value: shareLink, Atts: nil}) + `
 				</div>
 			</div>
-			<div style='width:50%;float:left;'>
-				<div class='button--wrapper' style='width:200px;margin-right:10px;'>
-					<a target='_blank' href='` + joinLink + `' class='btn--mini'>Join</a>
+			` + genCodeLink(event["eventid"].(string)) + `
+			<div class='info--section'>
+				<div class='half--section'>
+					<a target='_blank' href='` + joinLink + `' class='button--class'>Join</a>
+					<a target='_blank' href='` + eventLink + `' class='button--class'>Preview</a>
+					<a class='button--class' data-action='delete' data-event-id='` + event["eventid"].(string) + `'>DELETE</a>
 				</div>
-				<div class='button--wrapper' style='width:200px;'>
-					<a target='_blank' href='` + eventLink + `' class='btn--mini'>Preview</a>
-				</div>
-			</div>
-			<div style='width:50%;float:left;'>
-				<div class='button--wrapper'>
-					<a data-action='delete' data-event-id='`+ event["eventid"].(string) +`'><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-trash'><polyline points='3 6 5 6 21 6'></polyline><path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path></svg></a>
-				</div>
+				<div class='half--section'></div>
 			</div>
 		</div>
 	</div>`
 
 	return card
+}
+
+func genCodeLink(eventID string) string {
+	userInput := "user_name_" + eventID
+	joinInput := "join_link_" + eventID
+
+	templ := `<div class='info--section'>
+		<div class='half--section'>
+		` + Input(InputStruct{Type: "text", Id: userInput, Name: userInput, Label: "User Name", Value: "", Atts: nil}) + `
+			<div class='button--section-wrapper' style='width:200px;margin-left:10px;'>
+				<button class='button--class' data-action='gen_join_link' data-event-id='` + eventID + `'>Generate Link</button>
+			</div>
+		</div>
+	</div>
+	<div class='event--info-section'>
+		<div class='input--wrapper'>
+			` + Input(InputStruct{Type: "text", Id: joinInput, Name: joinInput, Label: "Join Link", Value: "", Atts: nil}) + `
+		</div>
+	</div>
+	`
+	return templ
 }
 
 func eventList(events []map[string]interface{}) string {

@@ -8,8 +8,8 @@ import (
 	"github.com/gorilla/mux"
 
 	db "github.com/devmarka/bbb-go-server/core/db"
-	routes "github.com/devmarka/bbb-go-server/routes"
 	env "github.com/devmarka/bbb-go-server/env"
+	routes "github.com/devmarka/bbb-go-server/routes"
 )
 
 func main() {

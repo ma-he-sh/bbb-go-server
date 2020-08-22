@@ -38,7 +38,6 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.json'],
     },
     node: {
-        globals:
         fs: 'empty',
     },
     output: {

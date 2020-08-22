@@ -2,6 +2,7 @@ package rest
 
 import (
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -26,6 +27,8 @@ func JSONPayload(w http.ResponseWriter, data interface{}) {
 
 func Rest(routes *mux.Router) {
 	routes.HandleFunc("/admin/create/event", addEvent).Methods("POST")
+	routes.HandleFunc("/admin/delete/event", deleteEvent).Methods("POST")
+	routes.HandleFunc("/admin/gen/joinlink", genJoinLink).Methods("POST")
 }
 
 func getEventID(eventname string) string {
@@ -84,6 +87,79 @@ func addEvent(w http.ResponseWriter, r *http.Request) {
 
 	if added {
 		send["success"] = true
+	}
+
+	JSONPayload(w, send)
+	return
+}
+
+func deleteEvent(w http.ResponseWriter, r *http.Request) {
+	isAdmin := session.SessionAdminCheck(w, r)
+	if !isAdmin {
+		http.Error(w, "auth error", 500)
+		return
+	}
+
+	var dataForm = make(map[string]interface{})
+	err := json.NewDecoder(r.Body).Decode(&dataForm)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	send := map[string]interface{}{
+		"success": false,
+	}
+
+	deleted, err := api.DeleteEvent(dataForm["eventid"].(string))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if deleted {
+		send["success"] = true
+	}
+	JSONPayload(w, send)
+	return
+}
+
+func genJoinLink(w http.ResponseWriter, r *http.Request) {
+	isAdmin := session.SessionAdminCheck(w, r)
+	if !isAdmin {
+		http.Error(w, "auth error", 500)
+		return
+	}
+
+	var dataForm = make(map[string]interface{})
+	err := json.NewDecoder(r.Body).Decode(&dataForm)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	send := map[string]interface{}{
+		"success": false,
+		"payload": map[string]string{
+			"url": "",
+		},
+	}
+
+	event, err := api.GetEvent(dataForm["eventid"].(string))
+	if err != nil {
+		JSONPayload(w, send)
+		return
+	}
+
+	params := url.Values{}
+	params.Add("uname", dataForm["username"].(string))
+	params.Add("code", event.GetAttendeePW())
+
+	joinURL := r.Host + "/join/" + event.Id + "/auth?" + params.Encode()
+
+	send["success"] = true
+	send["payload"] = map[string]string{
+		"url": joinURL,
 	}
 
 	JSONPayload(w, send)

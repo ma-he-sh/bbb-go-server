@@ -20,11 +20,11 @@ func Routes(routes *mux.Router) {
 	routes.HandleFunc("/admin/dashboard/join/{eventid}/", adminJoin).Methods("GET")
 	routes.HandleFunc("/admin/signout", adminSignout).Methods("GET")
 	routes.HandleFunc("/event/{eventid}/", eventHandle).Methods("GET", "POST")
+	routes.HandleFunc("/join/{eventid}/auth", eventJoin).Methods("GET")
 }
 
 func rootRoute(w http.ResponseWriter, r *http.Request) {
 	session.SessionRedirect(w, r, "/admin/dashboard")
-
 	if r.Method == http.MethodGet {
 		page := templ.PageObj("Home")
 		page.SetBody("<div>HELLO</div>")
@@ -233,6 +233,31 @@ func adminSignout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func eventJoin(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+
+	eventID := params["eventid"]
+	strName := r.FormValue("uname")
+	strAccessCode := r.FormValue("code")
+
+	event, err := api.GetEvent(eventID)
+	if err != nil {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	logouturl := r.Host + "/event/" + eventID + "/"
+	if strAccessCode == event.GetAttendeePW() || strAccessCode == event.GetModeratorPW() {
+		url, allowed := api.BBBJoinMeetingURL(eventID, strName, strAccessCode, logouturl)
+		if allowed {
+			http.Redirect(w, r, url, http.StatusSeeOther)
+			return
+		}
+	}
+	http.Redirect(w, r, r.URL.Path+"?auth=error", http.StatusSeeOther)
+	return
 }
 
 func Throw400(w http.ResponseWriter, r *http.Request) {

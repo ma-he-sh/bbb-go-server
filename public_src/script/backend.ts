@@ -3,6 +3,12 @@ import swal from "sweetalert";
 
 window.onload = () => {
 
+	function REST( url:string, data:any={}, callback:Function ) {
+		$.post( url, JSON.stringify(data), function(response:any) {
+			callback(response);
+		} );
+	}
+
 	$('#admin_create_event').submit(function(e:any) {
 		e.preventDefault();
 
@@ -28,7 +34,6 @@ window.onload = () => {
 			'/admin/create/event',
 			JSON.stringify(data),
 			function( response:any ) {
-				console.log( response );
 				if( response.success ) {
 					that.trigger("reset");
 					swal("Event", "Event Created", "success");
@@ -38,5 +43,52 @@ window.onload = () => {
 			},
 			'json'
 		);
+	});
+
+	$(document).on('click', '[data-action]', function() {
+		var action = $(this).data('action');
+		var eventID= $(this).data('event-id');
+		var data:any = {
+			eventid: eventID,
+		}
+
+		var requestURL = '';
+		if( 'gen_join_link' === action ) {
+			requestURL = '/admin/gen/joinlink';
+
+			var username = $(`#user_name_${eventID}`).val();
+			if(!username) return;
+			data.username = username;
+
+			REST(requestURL, data, function(resp:any) {
+				if( resp.success ) {
+					$(`#join_link_${eventID}`).val( resp.payload.url );
+				} else {
+					swal("Error", "Something went wrong", "warning");
+				}
+			});
+		} else if ( 'delete' === action ) {
+			requestURL = '/admin/delete/event';
+			swal({
+				title: "Are you sure you want to delete event?",
+				text: "This action cannot be undone",
+				icon: "warning",
+				dangerMode: true,
+			}).then((remove) => {
+				if( remove ) {
+					REST(requestURL, data, function(resp:any) {
+						if( resp.success ) {
+							swal("Event", "Event Deleted", "success");
+							$(`#event_wrapper_${eventID}`).remove();
+						} else {
+							swal("Error", "Something went wrong", "warning");
+						}
+					});
+				}
+			})
+			.catch((err)=>{
+				throw new Error(err);
+			})
+		}
 	});
 }

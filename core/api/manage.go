@@ -123,3 +123,19 @@ func GetEvent(eventID string) (EventStruct, error) {
 
 	return event, err
 }
+
+// Delete Event
+func DeleteEvent(eventID string) (bool, error) {
+	found := EventExists(eventID)
+	if !found {
+		return true, errors.New("event_not_found")
+	}
+	res, err := rethinkdb.Table(db.TBEvent).Get(eventID).Delete().RunWrite(db.Session)
+	if err != nil {
+		return false, errors.New("server_error")
+	}
+	if res.Deleted == 1 {
+		return true, nil
+	}
+	return false, errors.New("server_error")
+}
