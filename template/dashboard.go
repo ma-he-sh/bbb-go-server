@@ -106,6 +106,13 @@ func eventTemplWrapper(i int, event map[string]interface{}) string {
 	return card
 }
 
+func recordTempWrapper(i int, recording map[string]interface{}) string {
+	record := `<div id='recording_` + recording["meetingid"].(string) + `' class='app--event-wrapper'>
+		<a target='_blank' href='` + recording["url"].(string) + `' class='button--class' style='margin-bottom:10px'>` + recording["meetingid"].(string) + `</a>
+	</div>`
+	return record
+}
+
 func genCodeLink(eventID string) string {
 	userInput := "user_name_" + eventID
 	joinInput := "join_link_" + eventID
@@ -150,8 +157,9 @@ func eventList(events []map[string]interface{}) string {
 }
 
 type PagePayload struct {
-	Page      string
-	EventList []map[string]interface{}
+	Page       string
+	EventList  []map[string]interface{}
+	RecordList []map[string]interface{}
 }
 
 func AdminDashboard(payload PagePayload) string {
@@ -164,7 +172,7 @@ func AdminDashboard(payload PagePayload) string {
 		page += newEvent()
 		break
 	case "recordings":
-		page += ""
+		page += recordingsPage(payload.RecordList)
 		break
 	case "reports":
 		page += ""
@@ -183,6 +191,14 @@ func createToken() string {
 		b[i] = bucket[rand.Intn(len(bucket))]
 	}
 	return string(b)
+}
+
+func recordingsPage(recordList []map[string]interface{}) string {
+	var recordingHTML = ""
+	for i, recording := range recordList {
+		recordingHTML += recordTempWrapper(i, recording)
+	}
+	return recordingHTML
 }
 
 func newEvent() string {

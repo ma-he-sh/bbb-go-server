@@ -80,6 +80,31 @@ func EventList() ([]EventStruct, error) {
 	return events, err
 }
 
+// Get recordings
+func RecordList() ([]map[string]interface{}, error) {
+	var records []map[string]interface{}
+
+	var recordIDs = []string{}
+	eventRecords := BBBEventRecordings(recordIDs)
+	for _, recordObj := range eventRecords.Recording {
+		targetURL := ""
+		for _, formatObj := range recordObj.Playback.Format {
+			if formatObj.Type == "presentation" {
+				targetURL = formatObj.Url
+			}
+		}
+		record := map[string]interface{}{
+			"meetingid":           recordObj.MeetingID,
+			"meetingName":         recordObj.Name,
+			"meetingParticipants": recordObj.Participants,
+			"publish":             recordObj.Published,
+			"url":                 targetURL,
+		}
+		records = append(records, record)
+	}
+	return records, nil
+}
+
 // EventExists :: event exists
 func EventExists(eventID string) bool {
 	var count int

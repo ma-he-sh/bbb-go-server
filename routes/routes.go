@@ -156,8 +156,9 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
 		payload := templ.PagePayload{
-			Page:      "dashboard",
-			EventList: nil,
+			Page:       "dashboard",
+			EventList:  nil,
+			RecordList: nil,
 		}
 
 		tab := r.FormValue("tab")
@@ -182,6 +183,11 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 				eventRenderList = append(eventRenderList, eventData)
 			}
 			payload.EventList = eventRenderList
+		}
+
+		if payload.Page == "recordings" {
+			records, _ := api.RecordList()
+			payload.RecordList = records
 		}
 
 		page := templ.PageObj("Dashboard")

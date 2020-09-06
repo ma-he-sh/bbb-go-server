@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"log"
 	"net/url"
+	"strings"
 
 	env "github.com/devmarka/bbb-go-server/env"
 )
@@ -93,9 +94,28 @@ func BBBEventRecording(eventid string) {
 
 }
 
-func BBBEventRecordings([]string) []string {
-	var stringArr = []string{}
-	return stringArr
+func BBBEventRecordings(ids []string) recordings {
+	idString := strings.Join(ids, ",")
+	var data GetRecordingsResponse
+
+	arrParams := map[string]string{
+		"meetingID": url.QueryEscape(idString),
+	}
+	url := BBBBuildURL("getRecordings", arrParams)
+	response := HTTPResponse(url)
+	if "ERROR" == response {
+		log.Println("ERROR : HTTP ERROR")
+		return data.Recordings
+	}
+
+	err := ResponseXML(response, &data)
+
+	if err != nil {
+		log.Println("XML ERROR")
+		return data.Recordings
+	}
+
+	return data.Recordings
 }
 
 func BBBEventDeleteRecording(recorid string) {
